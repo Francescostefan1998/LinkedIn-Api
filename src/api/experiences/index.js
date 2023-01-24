@@ -111,6 +111,9 @@ experienceRouter.delete(
         );
         user.experiences = remainingExperiences;
         if (user) {
+          const deletedProduct = await ExperienceModel.findByIdAndDelete(
+            req.params.expId
+          );
           res.status(202).send("deleted");
           user.save();
         } else {

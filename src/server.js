@@ -4,6 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import usersRouter from "./api/users/index.js";
 import experienceRouter from "./api/experiences/index.js";
+import fileExperienceRouter from "./api/experiences/file/index.js";
 import {
   badRequestErrorHandler,
   notFoundErrorHandler,
@@ -21,6 +22,7 @@ server.use(express.json());
 server.use("/users", usersRouter);
 server.use("/users", experienceRouter);
 server.use("/", csvRouter);
+server.use("/", fileExperienceRouter);
 
 //ErrorHandlers
 server.use(badRequestErrorHandler);
