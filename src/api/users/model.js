@@ -25,6 +25,7 @@ const usersSchema = new Schema(
     area: { type: String, required: true },
     image: { type: String, required: true },
     username: { type: String, required: true, unique: true },
+    experiences: [{ type: Schema.Types.ObjectId, ref: "Experience" }],
   },
   { timestamps: true }
 );
