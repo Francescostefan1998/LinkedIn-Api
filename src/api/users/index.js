@@ -1,6 +1,7 @@
 import express from "express";
 import createHttpError from "http-errors";
 import UsersModel from "./model.js";
+const usersRouter = express.Router();
 
 // USERS:
 // – GET https://yourapi.herokuapp.com/api/users/
@@ -70,3 +71,5 @@ usersRouter.put("/:userId", async (req, res, next) => {
 // – GET https://yourapi.herokuapp.com/api/profile/{userId}/CV
 
 // Generates and download a PDF with the CV of the user (details, picture, experiences)
+
+export default usersRouter;
