@@ -12,7 +12,7 @@ server.use(cors());
 server.use(express.json());
 
 //Endpoints
-server.use("/blogs", blogsRouter);
+server.use("/users", usersRouter);
 server.use("users", experienceRouter);
 
 //ErrorHandlers
