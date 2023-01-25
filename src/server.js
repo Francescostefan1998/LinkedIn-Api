@@ -2,14 +2,16 @@ import express from "express";
 import listEndpoints from "express-list-endpoints";
 import cors from "cors";
 import mongoose from "mongoose";
-import experienceRouter from "./api/experiences/index.js";
-import usersRouter from "./api/users/index.js";
 import fileUserRouter from "./api/users/file/index.js";
+import usersRouter from "./api/users/index.js";
+import experienceRouter from "./api/experiences/index.js";
+import fileExperienceRouter from "./api/experiences/file/index.js";
 import {
   badRequestErrorHandler,
   notFoundErrorHandler,
   genericErrorHandler,
 } from "./errorHandlers.js";
+import csvRouter from "./api/experiences/csv/index.js";
 
 const server = express();
 const port = process.env.PORT || 3001;
@@ -22,6 +24,8 @@ server.use(express.json());
 server.use("/users", usersRouter);
 server.use("/users", experienceRouter);
 server.use("/users", fileUserRouter);
+server.use("/", csvRouter);
+server.use("/", fileExperienceRouter);
 
 //ErrorHandlers
 server.use(badRequestErrorHandler);
