@@ -13,8 +13,7 @@ import {
 } from "./errorHandlers.js";
 import csvRouter from "./api/experiences/csv/index.js";
 
- import postRouter from "./api/posts/index.js";
-
+import postRouter from "./api/posts/index.js";
 
 const server = express();
 const port = process.env.PORT || 3001;
@@ -40,7 +39,7 @@ server.use(express.json());
 server.use("/users", usersRouter);
 server.use("/users", experienceRouter);
 
-server.use("/posts", postRouter)
+server.use("/posts", postRouter);
 
 server.use("/users", fileUserRouter);
 

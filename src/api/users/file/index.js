@@ -2,8 +2,9 @@ import express from "express";
 import { v2 as cloudinary } from "cloudinary";
 import multer from "multer";
 import createHttpError from "http-errors";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
 
-fileUserRouter = express.Router();
+const fileUserRouter = express.Router();
 
 const cloudinaryUploader = multer({
   storage: new CloudinaryStorage({
@@ -11,8 +12,8 @@ const cloudinaryUploader = multer({
     params: {
       folder: "users",
     },
-  }).single("picture"),
-});
+  }),
+}).single("picture");
 
 // – POST https://yourapi.herokuapp.com/api/users/{userId}/picture
 fileUserRouter.post(
