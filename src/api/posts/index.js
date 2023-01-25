@@ -24,7 +24,7 @@ postRouter.get("/", async (req, res, next) => {
   }
 });
 
-postRouter.get("/postId", async (req, res, next) => {
+postRouter.get("/:postId", async (req, res, next) => {
   try {
     const post = await postSection.findById(req.params.postId)
     if(post) {
@@ -37,7 +37,7 @@ postRouter.get("/postId", async (req, res, next) => {
   }
 });
 
-postRouter.put("/postId", async (req, res, next) => {
+postRouter.put("/:postId", async (req, res, next) => {
   try {
     const updatePost = await postSection.findByIdAndUpdate(
         req.params.postId,
