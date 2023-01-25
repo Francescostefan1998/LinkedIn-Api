@@ -49,7 +49,7 @@ usersRouter.post("/", async (req, res, next) => {
 usersRouter.put("/:userId", async (req, res, next) => {
   // Update current user profile details
   try {
-    const updatedUser = await UserssModel.findByIdAndUpdate(
+    const updatedUser = await UsersModel.findByIdAndUpdate(
       req.params.userId, //Which one you want to modify
       req.body, //How you want to modify
       { new: true, runValidators: true } //Options
@@ -64,9 +64,19 @@ usersRouter.put("/:userId", async (req, res, next) => {
   }
 });
 
-// – POST https://yourapi.herokuapp.com/api/users/{userId}/picture
-
-// Replace user profile picture (name = profile)
+// - DELETE https://yourapi.herokuapp.com/api/users
+usersRouter.delete("/:userId", async (req, res, next) => {
+  try {
+    const deletedUser = await UsersModel.findByIdAndDelete(req.params.userId);
+    if (deletedUser) {
+      res.status(204).send();
+    } else {
+      next(createHttpError(404, `User with ID ${req.params.userId} not found`));
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
 // – GET https://yourapi.herokuapp.com/api/profile/{userId}/CV
 
