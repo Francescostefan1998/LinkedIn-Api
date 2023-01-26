@@ -12,7 +12,7 @@ import {
   genericErrorHandler,
 } from "./errorHandlers.js";
 import csvRouter from "./api/experiences/csv/index.js";
-
+import filePostRouter from "./api/posts/file/index.js";
 import postRouter from "./api/posts/index.js";
 
 const server = express();
@@ -40,6 +40,7 @@ server.use("/users", usersRouter);
 server.use("/users", experienceRouter);
 
 server.use("/posts", postRouter);
+server.use("/posts", filePostRouter);
 
 server.use("/users", fileUserRouter);
 
