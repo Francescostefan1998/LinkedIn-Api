@@ -14,7 +14,7 @@ import {
 import csvRouter from "./api/experiences/csv/index.js";
 import filePostRouter from "./api/posts/file/index.js";
 import postRouter from "./api/posts/index.js";
-
+import pdfRouter from "./api/users/pdf/index.js";
 const server = express();
 const port = process.env.PORT || 3001;
 const mongoConnectionString = process.env.MONGO_CONNECTION_STRING;
@@ -38,6 +38,7 @@ server.use(express.json());
 //Endpoints
 server.use("/users", usersRouter);
 server.use("/users", experienceRouter);
+server.use("/users", pdfRouter);
 
 server.use("/posts", postRouter);
 server.use("/posts", filePostRouter);
