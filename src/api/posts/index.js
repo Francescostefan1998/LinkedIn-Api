@@ -96,18 +96,30 @@ postRouter.post("/:postId/like", async (req, res, next) => {
 postRouter.delete("/:postId/like", async (req, res, next) => {
   try {
     console.log("delete triggered");
-    const _id = await likeModel.findOne({ username: req.body.username });
+    const { _id } = await likeModel.findOne({
+      username: req.body.username,
+      post: req.body.post,
+    });
     console.log(_id);
-    const updatePost = await postSection.findByIdAndUpdate(
-      req.params.postId,
-      { $pull: { likes: _id._id.toString() } },
-      { new: true }
-    );
-    const deletedProduct = await likeModel.findByIdAndDelete(
-      _id._id.toString()
-    );
-    if (updatePost) {
-      res.send(updatePost);
+    if (_id) {
+      const updatePost = await postSection.findByIdAndUpdate(
+        req.params.postId,
+        { $pull: { likes: _id } },
+        { new: true }
+      );
+      const deletedProduct = await likeModel.findByIdAndDelete(
+        _id._id.toString()
+      );
+      if (updatePost) {
+        res.send(updatePost);
+      } else {
+        next(
+          createHttpError(
+            404,
+            `Post not found with id ${req.params.postId} not found`
+          )
+        );
+      }
     } else {
       next(
         createHttpError(
