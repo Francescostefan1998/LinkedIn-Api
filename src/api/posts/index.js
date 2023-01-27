@@ -72,11 +72,11 @@ postRouter.delete("/:postId", async (req, res, next) => {
 postRouter.post("/:postId/like", async (req, res, next) => {
   try {
     const newLike = await likeModel(req.body);
-    const { _id } = await newLike.save();
+    const _id = await newLike.save();
 
     const updatePost = await postSection.findByIdAndUpdate(
       req.params.postId,
-      { $push: { likes: _id } },
+      { $push: { likes: _id.username } },
       { new: true }
     );
     if (updatePost) {
