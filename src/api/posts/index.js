@@ -140,7 +140,7 @@ postRouter.post("/:postId/comments", async (req, res, next) => {
 
     const updatePost = await postSection.findByIdAndUpdate(
       req.params.postId,
-      { $push: { comments: _id } },
+      { $push: { comments: newComment } },
       { new: true }
     );
     if (updatePost) {
@@ -159,7 +159,10 @@ postRouter.post("/:postId/comments", async (req, res, next) => {
 });
 postRouter.get("/:postId/comments", async (req, res, next) => {
   try {
-    const post = await postSection.findById(req.params.postId);
+    const post = await postSection.findById(req.params.postId).populate({
+      path: "comments",
+      select: "comment",
+    });
     if (post) {
       res.send(post.comments);
     } else {
