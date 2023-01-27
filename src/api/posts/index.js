@@ -92,6 +92,7 @@ postRouter.post("/:postId/like", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+  console.log(req.body);
 });
 postRouter.delete("/:postId/like", async (req, res, next) => {
   try {
