@@ -64,6 +64,20 @@ usersRouter.put("/:userId", async (req, res, next) => {
   }
 });
 
+// - DELETE https://yourapi.herokuapp.com/api/users
+usersRouter.delete("/:userId", async (req, res, next) => {
+  try {
+    const deletedUser = await UsersModel.findByIdAndDelete(req.params.userId);
+    if (deletedUser) {
+      res.status(204).send();
+    } else {
+      next(createHttpError(404, `User with ID ${req.params.userId} not found`));
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 // – POST https://yourapi.herokuapp.com/api/users/{userId}/picture
 
 // Replace user profile picture (name = profile)
