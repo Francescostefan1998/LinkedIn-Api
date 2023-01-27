@@ -49,7 +49,7 @@ usersRouter.post("/", async (req, res, next) => {
 usersRouter.put("/:userId", async (req, res, next) => {
   // Update current user profile details
   try {
-    const updatedUser = await UserssModel.findByIdAndUpdate(
+    const updatedUser = await UsersModel.findByIdAndUpdate(
       req.params.userId, //Which one you want to modify
       req.body, //How you want to modify
       { new: true, runValidators: true } //Options
