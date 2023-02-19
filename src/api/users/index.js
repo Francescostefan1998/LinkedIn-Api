@@ -1,6 +1,10 @@
 import express from "express";
 import createHttpError from "http-errors";
 import UsersModel from "./model.js";
+import passport from "passport";
+import { JWTAuthMiddleware } from "../../lib/auth/jwtAuth.js";
+import { createAccessToken } from "../../lib/auth/tools.js";
+
 const usersRouter = express.Router();
 
 // USERS:
@@ -10,6 +14,61 @@ usersRouter.get("/", async (req, res, next) => {
   try {
     const users = await UsersModel.find();
     res.send(users);
+  } catch (error) {
+    next(error);
+  }
+});
+usersRouter.get(
+  "/googleLogin",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+usersRouter.get(
+  "/googleRedirect",
+  passport.authenticate("google", { session: false }),
+  async (req, res, next) => {
+    console.log(req.user);
+    res.send({ accessToken: req.user.accessToken });
+    // res.redirect(`${process.env.FE_URL}?accessToken=${req.user.accessToken!}`);
+  }
+);
+
+usersRouter.put("/me", JWTAuthMiddleware, async (req, res, next) => {
+  try {
+    const updatedUser = await UsersModel.findByIdAndUpdate(
+      req.user._id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    res.send(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+});
+usersRouter.delete("/me", JWTAuthMiddleware, async (req, res, next) => {
+  try {
+    await UsersModel.findByIdAndUpdate(req.user._id);
+    res.status(204).send();
+  } catch (error) {
+    next(error);
+  }
+});
+usersRouter.post("/login", async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await UsersModel.checkCredentials(email, password);
+
+    if (user) {
+      const payload = { _id: user._id, role: user.role };
+
+      const accessToken = await createAccessToken(payload);
+      res.send({ accessToken });
+    } else {
+      next(createHttpError(401, "Credentials are not ok!"));
+    }
   } catch (error) {
     next(error);
   }
