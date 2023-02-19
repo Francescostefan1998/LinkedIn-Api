@@ -15,6 +15,10 @@ import csvRouter from "./api/experiences/csv/index.js";
 import filePostRouter from "./api/posts/file/index.js";
 import postRouter from "./api/posts/index.js";
 import pdfRouter from "./api/users/pdf/index.js";
+import googleStrategy from "./lib/auth/google.js";
+import passport from "passport";
+
+passport.use("google", googleStrategy);
 const server = express();
 
 const port = process.env.PORT || 3001;
