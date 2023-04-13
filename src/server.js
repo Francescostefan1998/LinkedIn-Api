@@ -40,7 +40,7 @@ const corsOpts = {
 //Middlewares
 server.use("/users", pdfRouter);
 
-server.use(cors(corsOpts));
+server.use(cors());
 server.use(express.json());
 //bbbb
 //Endpoints
